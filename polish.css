@@ -300,3 +300,30 @@ body, header, nav, .panel, .dashboard-card, .summary-tile, .features > a, .face,
   .theme-toggle { width: 38px; height: 38px; }
   #menu { order: 2; }
 }
+
+/* Functional Quick Recall */
+.quick-recall-widget { justify-content: flex-start; }
+.demo-top > div { display: flex; flex-direction: column; gap: 3px; }
+.demo-top > div > span { color: var(--muted); font-size: 9px; font-weight: 650; }
+.quick-recall-content { min-height: 112px; display: flex; flex-direction: column; justify-content: center; padding: 18px 0 14px; }
+.quick-recall-content > b { font-size: 20px; line-height: 1.38; overflow-wrap: anywhere; }
+.quick-recall-content > p { margin: 12px 0 0; padding: 11px 13px; border-left: 3px solid var(--green); border-radius: 0 9px 9px 0; background: var(--green-soft); color: #187d69; font-size: 13px; font-weight: 650; line-height: 1.45; overflow-wrap: anywhere; }
+.quick-recall-content > p[hidden] { display: none; }
+.quick-actions { display: flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); }
+.quick-button { min-height: 34px; padding: 0 11px; border: 1px solid var(--line); border-radius: 9px; background: #f8f8fb; color: var(--ink); font-size: 10px; font-weight: 750; cursor: pointer; transition: .2s; }
+.quick-button:hover:not(:disabled) { transform: translateY(-1px); border-color: var(--coral); }
+.quick-button.primary-quick { border-color: transparent; background: var(--coral); color: white; }
+.quick-button:disabled { cursor: not-allowed; opacity: .42; }
+.quick-actions > a { margin-left: auto; color: var(--coral); font-size: 10px; font-weight: 750; }
+.quick-actions > a[hidden] { display: none; }
+
+html[data-theme="dark"] .quick-recall-content > p { background: #173b35; color: #78dac7; }
+html[data-theme="dark"] .quick-actions { border-color: #343a50; }
+html[data-theme="dark"] .quick-button { border-color: #383f55; background: #20263a; color: #edf0fa; }
+html[data-theme="dark"] .quick-button.primary-quick { border-color: transparent; background: #7777e5; }
+
+@media (max-width: 680px) {
+  .study-preview .quick-recall-widget { width: min(340px,92%); }
+  .quick-recall-content { min-height: 105px; }
+  .quick-actions { flex-wrap: wrap; }
+}
