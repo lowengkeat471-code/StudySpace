@@ -1,12 +1,16 @@
 (()=>{"use strict";
 const $=(s,p=document)=>p.querySelector(s),$$=(s,p=document)=>[...p.querySelectorAll(s)];
-const K={cards:"studyspace_flashcards",exams:"studyspace_exams",stats:"studyspace_stats",activity:"studyspace_activity_days",suggestions:"studyspace_suggestions"};
+const K={cards:"studyspace_flashcards",exams:"studyspace_exams",stats:"studyspace_stats",activity:"studyspace_activity_days",suggestions:"studyspace_suggestions",theme:"studyspace_theme"};
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const id=()=>Date.now()+"-"+Math.random().toString(16).slice(2);
 let cards=read(K.cards,[]),exams=read(K.exams,[]),stats={attempts:0,correct:0,wrong:0,...read(K.stats,{})},activityDays=read(K.activity,[]),suggestions=read(K.suggestions,[]),quiz=[],quizIndex=0,revealed=false,toastTimer;
 
 function toast(message){$("#toast").textContent=message;$("#toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("#toast").classList.remove("show"),1900)}
+
+function applyTheme(theme){document.documentElement.dataset.theme=theme;const dark=theme==="dark";$("#themeToggle").setAttribute("aria-label",dark?"Switch to light mode":"Switch to dark mode");$("#themeToggle").title=dark?"Switch to light mode":"Switch to dark mode"}
+const savedTheme=localStorage.getItem(K.theme);applyTheme(savedTheme||((window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light"));
+$("#themeToggle").addEventListener("click",()=>{const theme=document.documentElement.dataset.theme==="dark"?"light":"dark";localStorage.setItem(K.theme,theme);applyTheme(theme);toast(theme==="dark"?"Dark mode on":"Light mode on")});
 
 function localDate(offset=0){const date=new Date;date.setDate(date.getDate()+offset);return new Date(date-date.getTimezoneOffset()*60000).toISOString().slice(0,10)}
 function recordStudyActivity(){const today=localDate();if(!activityDays.includes(today)){activityDays.push(today);activityDays=activityDays.slice(-370);save(K.activity,activityDays)}if($("#homeStreak"))$("#homeStreak").textContent=getStudyStreak()}
